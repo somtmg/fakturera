@@ -1,0 +1,199 @@
+body {
+  font-family: sans-serif;
+  color: white;
+  margin: 0;
+  padding: 0;
+  background-size: cover;                  /* 2. Scales the image to cover the entire page */
+  background-repeat: no-repeat;            /* 3. Prevents the image from repeating */
+  background-position: center center;      /* 4. Centers the image in the viewport */
+  background-attachment: fixed;   
+  -webkit-text-size-adjust: 100%;
+}
+* {
+    box-sizing: border-box;
+    margin: 0px;
+    padding: 0px;
+    font-family: "Open Sans", sans-serif !important;
+    outline: none !important;
+    -webkit-font-smoothing: antialiased;
+    -webkit-tap-highlight-color: rgba(255, 255, 255, 0) !important;
+    -webkit-focus-ring-color: rgba(255, 255, 255, 0) !important;
+    border: 0;
+}
+.background-image{
+    position: fixed;
+    width: 100%;
+    height: 100vh;
+    z-index: -100;
+}
+.nav-header {
+  padding: 1rem;
+  display: flex;
+  background-image: transparent;
+  justify-content: space-between;
+}
+.nav{
+  background-color: transparent;
+}
+.nav img{
+  margin-left: 150px;
+  margin-right: 300px;
+  width: 50px;
+  height: 30px;
+}
+.nav ul {
+  display: flex;
+  flex-wrap: wrap;
+  list-style: none;
+  padding: 0;
+  gap: 1rem;
+}
+select {
+  /* This is the key line */
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+
+  /* Now you can add your own styles */
+  background-color: transparent;  
+  border: none;
+  color: white;
+  font-size: large;
+}
+/* select{
+  background-color: transparent;
+  border: none;
+  color: white;
+  font-size: 15px;
+} */
+.nav li {
+  padding: 0.5rem 1rem;
+  border-radius: 5px;
+}
+
+.language-dropdown {
+  position: relative ;
+  display: inline-block;
+  width: 20px;
+  background-color: transparent;
+}
+
+.dropdown-button {
+  background-color: transparent;
+  border: none;
+  color: white;
+  padding: 0.5rem 1rem;
+  font-size: large;
+  border-radius: 5px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  overflow: off;
+}
+
+/* .flag-icon {
+  border-radius: 10px;
+  width: 10px;
+  height: 10px;
+  vertical-align: middle;
+} */
+
+.dropdown-menu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background-color: white; /* Solid white for exact match */
+  border-radius: 8px; /* Slightly larger radius for rounded look */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Softer shadow */
+  list-style: none;
+  padding: 0.5rem 0;
+  margin: 0;
+  z-index: 1000;
+  min-width: 0; /* Reset to default */
+  width: auto;
+  overflow: off;
+}
+
+.dropdown-item {
+  padding: 0.5rem 1rem;
+  color: #333;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* .img-div{
+  width: 26px;
+  height: 18px;
+  border: 1px solid #fff;
+  background-color: blue;
+  border-radius: 4px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+  overflow: hidden;
+  position: fixed;
+  top: 10px;
+  right: 10px;
+  
+} */
+.dropdown-item img {
+  width: 26px;
+  height: 18px;
+  margin-left: 2px; /* Reduced from 1rem (16px) to 2px */
+}
+
+.dropdown-button .flag-icon {
+  width: 26px;
+  height: 18px;
+  margin-left: 2px;
+}
+.dropdown-item .flag-icon {
+  width: 26px;
+  height: 18px;
+}
+.flag-icon {
+  width: 26px;
+  height: 18px;
+  border-radius: 6px;
+  vertical-align: middle;
+}
+/* .img-div img{
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+} */
+.dropdown-item:hover {
+  background-color: #f0f0f0;
+}
+
+.close-button{
+  background-color: #089e1e;
+  border-radius: 3rem;
+  border: none;
+  color: white;
+  width: 270px;
+  height: 56.5px;
+  margin-top: 27px;
+  margin-bottom: 27px;
+  font-size: 18px;
+}
+
+.terms-container{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+}
+
+.terms-content{
+  background-color: white;
+  color: gray;
+  padding: 40px;
+  border-radius: 2rem;
+  width: 750px;;
+}
+@media (max-width: 768px) {
+  .nav ul {
+    flex-direction: column;
+  }
+}
