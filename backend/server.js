@@ -1,37 +1,56 @@
-
-const Fastify = require('fastify');
-const { Sequelize, DataTypes } = require('sequelize');
-const fastify = Fastify();
-fastify.register(require('@fastify/cors'), { origin: '*' });
-
-const sequelize = new Sequelize('postgres://som:@localhost:5432/fakturera_db');
-
-const Translation = sequelize.define('Translation', {
-  key: DataTypes.STRING,
-  language: DataTypes.STRING,
-  value: DataTypes.STRING,
-}, {
-  tableName: 'translations',
-  timestamps: false,
+require("dotenv").config({
+  path: `.env.${process.env.NODE_ENV || "development"}`,
 });
 
-fastify.get('/translations/:lang', async (request, reply) => {
-  const { lang } = request.params;
-  const translations = await Translation.findAll({ where: { language: lang } });
-  const result = {};
-  translations.forEach(t => result[t.key] = t.value);
-  return result;
-});
+const {
+  sequelize,
+  Translation,
+  createDatabase,
+  seedDatabase,
+} = require("./db");
 
-const start = async () => {
+// Initialize Fastify server with logger
+const Fastify = require("fastify");
+const fastify = Fastify({ logger: true });
+
+fastify.register(require("@fastify/cors"), { origin: process.env.CORS_ORIGIN });
+
+// Routes
+fastify.get("/translations/:lang", async (request, reply) => {
   try {
+    const { lang } = request.params;
+    const translations = await Translation.findAll({
+      where: { language: lang },
+    });
+    const result = {};
+    translations.forEach((t) => (result[t.key] = t.value));
+    return result;
+  } catch (error) {
+    fastify.log.error("Error fetching translations:", error);
+    reply.status(500).send({ error: "Internal Server Error" });
+  }
+});
+
+// Start server and seed database
+const startServer = async () => {
+  try {
+    await createDatabase();
     await sequelize.authenticate();
-    await fastify.listen({ port: 3000 });
-    console.log('Server running on http://localhost:3000');
+    fastify.log.info("Database connection established.");
+    if (
+      process.env.NODE_ENV !== "production" ||
+      process.env.SEED_DATABASE === "true"
+    ) {
+      await seedDatabase();
+    } else {
+      fastify.log.info("Skipping seeding in production.");
+    }
+    fastify.listen({ port: process.env.PORT || 3000, host: "0.0.0.0" });
+    fastify.log.info(`Server running on ${process.env.PORT || 3000}`);
   } catch (err) {
-    console.error(err);
+    fastify.log.error("Error starting server:", err);
     process.exit(1);
   }
 };
 
-start();
+startServer();

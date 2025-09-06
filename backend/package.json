@@ -1,6 +1,7 @@
 {
   "dependencies": {
     "@fastify/cors": "^11.1.0",
+    "dotenv": "^17.2.2",
     "fastify": "^5.5.0",
     "pg": "^8.16.3",
     "pg-hstore": "^2.3.4",
