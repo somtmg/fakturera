@@ -17,7 +17,7 @@ function App() {
 
     // Fetch translations
     axios
-      .get(`${apiUrl}/translations/${language}`)
+      .get(`${apiUrl}/translations/${language}`, { maxRedirects: 5 })
       .then((res) => setTranslations(res.data));
   }, [language]);
 

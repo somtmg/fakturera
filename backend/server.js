@@ -14,7 +14,11 @@ const Fastify = require("fastify");
 const fastify = Fastify({ logger: true });
 
 fastify.register(require("@fastify/cors"), {
-  origin: [process.env.CORS_ORIGIN, "fakturera-kappa.vercel.app"],
+  origin: [
+    process.env.CORS_ORIGIN,
+    "https://fakturera-kappa.vercel.app",
+    "http://localhost:3000",
+  ],
 });
 
 // Routes
