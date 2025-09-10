@@ -13,7 +13,16 @@ const cred = `postgres://${DB_USER}:${
 }@${DB_HOST}:${DB_PORT}/${DB_NAME}`;
 
 // Initialize Sequelize
-const sequelize = new Sequelize(cred, { logging: false });
+const sequelize = new Sequelize(cred, {
+  logging: false,
+  dialect: "postgres",
+  dialectOptions:
+    process.env.NODE_ENV === "production"
+      ? {
+          ssl: { require: true, rejectUnauthorized: false },
+        }
+      : {},
+});
 
 // Table definition name Translation
 const Translation = sequelize.define(
