@@ -6,11 +6,10 @@ const {
   translations,
 } = require("./translationsData");
 
-const { DB_USER, DB_PASSWORD, DB_HOST, DB_PORT, DB_NAME } = process.env;
-
-const cred = `postgres://${DB_USER}:${
-  DB_PASSWORD || ""
-}@${DB_HOST}:${DB_PORT}/${DB_NAME}`;
+const cred = process.env.DATABASE_URL;
+if (!cred) {
+  throw new Error("Database url is not defined");
+}
 
 // Initialize Sequelize
 const sequelize = new Sequelize(cred, {
@@ -57,25 +56,31 @@ svParagraphs.forEach((p, index) =>
 
 // Create database if it doesn't exist
 async function createDatabase() {
+  if (process.env.NODE_ENV === "production") {
+    console.log("Skipping database creation");
+    return;
+  }
+
+  const url = new URL(process.env.DATABASE_URL);
   const client = new Client({
-    user: DB_USER,
-    password: DB_PASSWORD || "",
-    host: DB_HOST,
-    port: DB_PORT,
+    user: url.username,
+    password: url.password,
+    host: url.hostname,
+    port: url.port,
     database: "postgres",
   });
-
+  const dbName = url.pathname.slice(1);
   try {
     await client.connect();
     const res = await client.query(
       `SELECT 1 FROM pg_database WHERE datname = $1`,
-      [DB_NAME]
+      [dbName]
     );
     if (res.rowCount === 0) {
-      await client.query(`CREATE DATABASE ${DB_NAME};`);
-      console.log(`Database ${DB_NAME} created successfully!`);
+      await client.query(`CREATE DATABASE ${dbName};`);
+      console.log(`Database ${dbName} created successfully!`);
     } else {
-      console.log(`Database ${DB_NAME} already exists, skipped creating`);
+      console.log(`Database ${dbName} already exists, skipped creating`);
     }
   } catch (error) {
     console.error("Error creating database:", error);

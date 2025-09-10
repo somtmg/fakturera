@@ -13,7 +13,9 @@ const {
 const Fastify = require("fastify");
 const fastify = Fastify({ logger: true });
 
-fastify.register(require("@fastify/cors"), { origin: process.env.CORS_ORIGIN });
+fastify.register(require("@fastify/cors"), {
+  origin: [process.env.CORS_ORIGIN, "fakturera-kappa.vercel.app"],
+});
 
 // Routes
 fastify.get("/translations/:lang", async (request, reply) => {
@@ -48,7 +50,15 @@ const startServer = async () => {
     fastify.listen({ port: process.env.PORT || 3000, host: "0.0.0.0" });
     fastify.log.info(`Server running on ${process.env.PORT || 3000}`);
   } catch (err) {
-    fastify.log.error("Error starting server:", err);
+    // fastify.log.error("Error starting server:", err);
+    console.log(err);
+    fastify.log.error("Error starting server:", {
+      message: err.message,
+      stack: err.stack,
+      code: err.code,
+      detail: err.detail || err,
+    });
+
     process.exit(1);
   }
 };
