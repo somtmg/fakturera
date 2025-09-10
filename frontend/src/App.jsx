@@ -3,6 +3,7 @@ import axios from "axios";
 import Header from "./components/Header";
 import Terms from "./components/Terms";
 
+const apiUrl = import.meta.env.VITE_API_URL || "http://localhost:3000";
 function App() {
   //Get language option from local storage if its there
   const [language, setLanguage] = useState(() => {
@@ -11,12 +12,12 @@ function App() {
   const [translations, setTranslations] = useState({});
 
   useEffect(() => {
-     // Save the current language to localStorage
+    // Save the current language to localStorage
     localStorage.setItem("language", language);
 
     // Fetch translations
     axios
-      .get(`http://localhost:3000/translations/${language}`)
+      .get(`${apiUrl}/translations/${language}`)
       .then((res) => setTranslations(res.data));
   }, [language]);
 
