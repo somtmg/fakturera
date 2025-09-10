@@ -27,6 +27,7 @@ export default function Header({ translations, language, onLanguageChange }) {
           alt="Logo"
         />
       </div>
+      {/* hamburger */}
       <div
         className="hamburger mobile-only"
         onClick={() => setMenuOpen((prev) => !prev)}
@@ -38,27 +39,29 @@ export default function Header({ translations, language, onLanguageChange }) {
       {/* Desktop Nav */}
       <nav className="nav desktop-only">
         <ul>
-          <li>{translations.home || "..."}</li>
-          <li>{translations.order || "..."}</li>
-          <li>{translations.our_customers || "..."}</li>
-          <li>{translations.about_us || "..."}</li>
-          <li>{translations.contact_us || "..."}</li>
+          <li>{translations.home}</li>
+          <li>{translations.order}</li>
+          <li>{translations.our_customers}</li>
+          <li>{translations.about_us}</li>
+          <li>{translations.contact_us}</li>
           <li>
             <div className="language-dropdown"></div>
           </li>
         </ul>
       </nav>
+      {/* dropdown */}
       {menuOpen && (
         <nav className="nav mobile-only mobile-menu">
           <ul>
-            <li>{translations.home || "..."}</li>
-            <li>{translations.order || "..."}</li>
-            <li>{translations.our_customers || "..."}</li>
-            <li>{translations.about_us || "..."}</li>
-            <li>{translations.contact_us || "..."}</li>
+            <li>{translations.home}</li>
+            <li>{translations.order}</li>
+            <li>{translations.our_customers}</li>
+            <li>{translations.about_us}</li>
+            <li>{translations.contact_us}</li>
           </ul>
         </nav>
       )}
+      {/* language dropdown */}
       <div className="language-dropdown mobile-only mobile-lang">
         <button
           onClick={() => setIsLangOpen(!isLangOpen)}
